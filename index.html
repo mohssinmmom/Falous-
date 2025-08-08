@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediabono - ملفات اليوتيوبر</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f4f0, #eae0d5);
+            color: #3e2723;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* الصفحات */
+        .page {
+            width: 100%;
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page.active {
+            display: flex;
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* الصفحة الرئيسية */
+        #home-page {
+            background: linear-gradient(135deg, #eae0d5, #d6c3b0);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .home-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(210, 180, 140, 0.3);
+            backdrop-filter: blur(5px);
+            margin: 20px;
+        }
+        
+        .logo {
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 25px;
+            background: linear-gradient(to right, #8d6e63, #5d4037, #3e2723);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -1px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(to right, #d6c3b0, #8d6e63, #d6c3b0);
+            border-radius: 2px;
+        }
+        
+        .description {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            color: #5d4037;
+        }
+        
+        .tiktok-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 45px;
+            background: linear-gradient(45deg, #8d6e63, #5d4037);
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 20px rgba(93, 64, 55, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tiktok-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .tiktok-btn:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .tiktok-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(93, 64, 55, 0.5);
+            background: linear-gradient(45deg, #5d4037, #8d6e63);
+        }
+        
+        .tiktok-btn i {
+            margin-left: 10px;
+            font-size: 1.6rem;
+        }
+        
+        /* الصفحة الثانية - الترحيب */
+        #welcome-page {
+            background: linear-gradient(135deg, #eae0d5, #d6c3b0);
+        }
+        
+        .welcome-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(210, 180, 140, 0.3);
+            backdrop-filter: blur(5px);
+            margin: 20px;
+        }
+        
+        .welcome-title {
+            font-size: 3.2rem;
+            margin-bottom: 30px;
+            color: #5d4037;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .welcome-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 4px;
+            background: linear-gradient(to right, #d6c3b0, #8d6e63, #d6c3b0);
+            border-radius: 2px;
+        }
+        
+        .welcome-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: #5d4037;
+        }
+        
+        .scroll-down {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: #8d6e63;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .scroll-down:hover {
+            color: #5d4037;
+            transform: translateY(5px);
+        }
+        
+        .scroll-down i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+        
+        .scroll-down span {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* الصفحة الثالثة - التنزيلات */
+        #downloads-page {
+            background: linear-gradient(135deg, #f8f4f0, #eae0d5);
+            padding: 80px 20px 120px;
+        }
+        
+        .downloads-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.6rem;
+            margin-bottom: 50px;
+            color: #5d4037;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(to right, #d6c3b0, #8d6e63, #d6c3b0);
+            border-radius: 2px;
+        }
+        
+        .downloads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            margin-top: 30px;
+        }
+        
+        .download-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 35px 30px;
+            text-align: center;
+            transition: all 0.5s ease;
+            border: 1px solid rgba(210, 180, 140, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(93, 64, 55, 0.2);
+            border: 1px solid rgba(141, 110, 99, 0.7);
+        }
+        
+        .download-icon {
+            font-size: 3.8rem;
+            color: #8d6e63;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .download-icon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #d6c3b0, #8d6e63, #d6c3b0);
+            border-radius: 2px;
+        }
+        
+        .download-title {
+            font-size: 1.8rem;
+            margin: 25px 0 20px;
+            color: #5d4037;
+        }
+        
+        .download-desc {
+            font-size: 1.1rem;
+            color: #7a5c4d;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background: linear-gradient(45deg, #8d6e63, #5d4037);
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(93, 64, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .download-btn:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(45deg, #5d4037, #8d6e63);
+            box-shadow: 0 7px 20px rgba(93, 64, 55, 0.5);
+            transform: translateY(-3px);
+        }
+        
+        /* التذييل */
+        footer {
+            background: linear-gradient(90deg, #3e2723, #5d4037, #3e2723);
+            padding: 20px 0;
+            text-align: center;
+            font-size: 1rem;
+            color: #d6c3b0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        /* تأثيرات الجسيمات للخلفية */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(141, 110, 99, 0.2);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-1000px) translateX(1000px) rotate(720deg); opacity: 0; }
+        }
+        
+        /* زر العودة للصفحة الرئيسية */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #5d4037;
+            border: 1px solid rgba(141, 110, 99, 0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 101;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(93, 64, 55, 0.2);
+            color: #3e2723;
+        }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .logo { font-size: 3.2rem; }
+            .welcome-title { font-size: 2.4rem; }
+            .section-title { font-size: 2rem; }
+            .downloads-grid { grid-template-columns: 1fr; }
+            .tiktok-btn { padding: 14px 35px; font-size: 1.1rem; }
+            .download-card { padding: 25px 20px; }
+        }
+        
+        /* تأثيرات إضافية */
+        .pattern-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d6c3b0' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- تأثير الجسيمات -->
+    <div class="particles" id="particles"></div>
+    <div class="pattern-overlay"></div>
+    
+    <!-- زر العودة -->
+    <div class="back-btn" id="backBtn">
+        <i class="fas fa-arrow-left"></i>
+    </div>
+    
+    <!-- الصفحة الرئيسية -->
+    <section id="home-page" class="page active">
+        <div class="home-content">
+            <h1 class="logo">Mediabono</h1>
+            <p class="description">
+                مرحبًا بك في موقع Mediabono الرسمي. هنا ستجد كل الملفات والتطبيقات التي أشاركها مع متابعيني على التيك توك.
+                للوصول إلى المحتوى، يرجى زيارة قناتنا على التيك توك أولاً.
+            </p>
+            <a href="https://www.tiktok.com/@mohssin.bm_no1" target="_blank" class="tiktok-btn" id="tiktokBtn">
+                <i class="fab fa-tiktok"></i> زيارة قناة التيك توك
+            </a>
+        </div>
+    </section>
+    
+    <!-- صفحة الترحيب -->
+    <section id="welcome-page" class="page">
+        <div class="welcome-content">
+            <h2 class="welcome-title">أهلاً وسهلاً بك في Mediabono!</h2>
+            <p class="welcome-text">
+                شكراً لزيارتك قناتنا على التيك توك. نحن نقدم لك أفضل الملفات والتطبيقات التي تساعدك في إنشاء محتوى مبدع.
+                يمكنك الآن تنزيل ما تحتاجه من خلال الأيقونات أدناه. كل الملفات مجانية وآمنة للاستخدام.
+            </p>
+            
+            <div class="scroll-down" id="scrollDown">
+                <i class="fas fa-arrow-down"></i>
+                <span>انزل للأسفل لتحميل الملفات</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- صفحة التنزيلات -->
+    <section id="downloads-page" class="page">
+        <div class="downloads-container">
+            <h2 class="section-title">حمل تطبيقاتك وملفاتك</h2>
+            
+            <div class="downloads-grid">
+                <!-- كاب كات برو -->
+                <div class="download-card">
+                    <div class="download-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="download-title">كاب كات برو</h3>
+                    <p class="download-desc">
+                        الإصدار الاحترافي من تطبيق كاب كات مع جميع الميزات المميزة والجودة العالية. مناسب للمونتاج المحترف.
+                    </p>
+                    <a href="#" class="download-btn">تنزيل الآن</a>
+                </div>
+                
+                <!-- حزمة الأصوات -->
+                <div class="download-card">
+                    <div class="download-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3 class="download-title">حزمة الأصوات</h3>
+                    <p class="download-desc">
+                        مجموعة مميزة من الأصوات والمؤثرات الصوتية لمقاطعك، جاهزة للاستخدام الفوري. أكثر من 100 صوت احترافي.
+                    </p>
+                    <a href="#" class="download-btn">تنزيل الآن</a>
+                </div>
+                
+                <!-- خلفيات متحركة -->
+                <div class="download-card">
+                    <div class="download-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3 class="download-title">خلفيات متحركة</h3>
+                    <p class="download-desc">
+                        مجموعة من الخلفيات المتحركة عالية الجودة لاستخدامها في المونتاج والإنتاج. جودة 4K مع تأثيرات مذهلة.
+                    </p>
+                    <a href="#" class="download-btn">تنزيل الآن</a>
+                </div>
+                
+                <!-- قوالب مونتاج -->
+                <div class="download-card">
+                    <div class="download-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3 class="download-title">قوالب مونتاج</h3>
+                    <p class="download-desc">
+                        مجموعة من القوالب الجاهزة للمونتاج لتسريع عملك وتقديم محتوى احترافي في وقت قياسي.
+                    </p>
+                    <a href="#" class="download-btn">تنزيل الآن</a>
+                </div>
+                
+                <!-- أدوات التسويق -->
+                <div class="download-card">
+                    <div class="download-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="download-title">أدوات التسويق</h3>
+                    <p class="download-desc">
+                        حزمة متكاملة من الأدوات الذكية لتحليل أداء قناتك وزيادة تفاعل المتابعين ونجاح المحتوى.
+                    </p>
+                    <a href="#" class="download-btn">تنزيل الآن</a>
+                </div>
+                
+                <!-- دورة احترافية -->
+                <div class="download-card">
+                    <div class="download-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="download-title">دورة احترافية</h3>
+                    <p class="download-desc">
+                        دورة متكاملة لاحتراف صناعة المحتوى وتطوير قناتك من البداية حتى الاحتراف مع شهادة معتمدة.
+                    </p>
+                    <a href="#" class="download-btn">تنزيل الآن</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- التذييل -->
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2023 Mediabono | تم التصميم باحترافية</p>
+    </footer>
+    
+    <script>
+        // إنشاء جسيمات متحركة للخلفية
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // حجم عشوائي
+                const size = Math.random() * 30 + 10;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // موقع عشوائي
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                
+                // تأخير عشوائي للحركة
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // الانتقال إلى صفحة الترحيب بعد زيارة التيك توك
+        document.getElementById('tiktokBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // إظهار رسالة للمستخدم
+            alert('شكراً لزيارة قناتنا على التيك توك! سيتم تحويلك إلى صفحة التنزيلات بعد عودتك.');
+            
+            // فتح رابط التيك توك في علامة تبويب جديدة
+            window.open(this.href, '_blank');
+            
+            // الانتقال إلى صفحة الترحيب بعد تأخير (لمحاكاة العودة من التيك توك)
+            setTimeout(() => {
+                document.getElementById('home-page').classList.remove('active');
+                document.getElementById('welcome-page').classList.add('active');
+            }, 3000);
+        });
+        
+        // التمرير إلى صفحة التنزيلات
+        document.getElementById('scrollDown').addEventListener('click', function() {
+            document.getElementById('welcome-page').classList.remove('active');
+            document.getElementById('downloads-page').classList.add('active');
+            
+            // التمرير إلى الأعلى
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // زر العودة
+        document.getElementById('backBtn').addEventListener('click', function() {
+            if (document.getElementById('downloads-page').classList.contains('active')) {
+                document.getElementById('downloads-page').classList.remove('active');
+                document.getElementById('welcome-page').classList.add('active');
+            } else if (document.getElementById('welcome-page').classList.contains('active')) {
+                document.getElementById('welcome-page').classList.remove('active');
+                document.getElementById('home-page').classList.add('active');
+            }
+        });
+        
+        // تهيئة الجسيمات عند تحميل الصفحة
+        window.addEventListener('load', function() {
+            createParticles();
+            
+            // التأكد من أن الصفحة الرئيسية نشطة عند التحميل
+            document.getElementById('home-page').classList.add('active');
+        });
+    </script>
+</body>
+</html>
